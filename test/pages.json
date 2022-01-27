@@ -6,19 +6,7 @@
 				"navigationBarTitleText": "uni-app"
 			}
 		}
-	    ,{
-            "path" : "pages/moduls/volume/volume",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "音量模块 VolumeModule",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
-	"easycom": {
-		"^tm-(.*)": "@/tm-vuetify/components/tm-$1/tm-$1.vue"
-	},
+	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "uni-app",

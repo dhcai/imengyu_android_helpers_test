@@ -7,9 +7,6 @@ import com.taobao.weex.common.WXModule;
 
 import io.dcloud.feature.uniapp.annotation.UniJSMethod;
 
-/**
- * 路径模块
- */
 public class PathModule extends WXModule {
     @Keep
     @UniJSMethod
