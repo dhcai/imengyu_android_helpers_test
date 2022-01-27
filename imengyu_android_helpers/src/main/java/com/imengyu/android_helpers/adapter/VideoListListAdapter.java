@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.blankj.utilcode.util.ScreenUtils;
 import com.imengyu.android_helpers.R;
 import com.imengyu.android_helpers.holder.VideoListViewHolder;
 import com.imengyu.android_helpers.model.VideoListItem;
@@ -36,7 +37,7 @@ public class VideoListListAdapter extends RecyclerView.Adapter<VideoListViewHold
         this.activity = activity;
         this.layoutId = layoutId;
         this.list = list;
-        Size size = ScreenUtils.getScreenSize(activity);
+        Size size = new Size(ScreenUtils.getScreenWidth(), ScreenUtils.getScreenHeight());
         itemSize = size.getWidth() / 4 - 10;
         contentResolver = activity.getApplicationContext().getContentResolver();
     }

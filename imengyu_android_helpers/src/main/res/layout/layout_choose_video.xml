@@ -33,13 +33,13 @@
             android:scaleType="fitCenter" />
     </RelativeLayout>
 
-    <uni.imengyu.ydt.widget.RecyclerViewEmptySupport
+    <com.imengyu.android_helpers.widget.RecyclerViewEmptySupport
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="66dp">
 
-    </uni.imengyu.ydt.widget.RecyclerViewEmptySupport>
+    </com.imengyu.android_helpers.widget.RecyclerViewEmptySupport>
 
     <include
         android:id="@+id/layout_empty"

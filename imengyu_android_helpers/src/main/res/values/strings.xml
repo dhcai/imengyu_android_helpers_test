@@ -25,4 +25,5 @@
     <string name="already_select">已选择：%s</string>
     <string name="file_select_res">确定%s</string>
     <string name="file_select_max">最多选择%d个文件</string>
+    <string name="no_video">没有视频</string>
 </resources>

@@ -78,7 +78,7 @@
 
             </androidx.recyclerview.widget.RecyclerView>
 
-            <com.kui.wxvideoeditt.RangeBar
+            <com.imengyu.android_helpers.wxvideoeditt.RangeBar
                 android:id="@+id/rangeBar"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
