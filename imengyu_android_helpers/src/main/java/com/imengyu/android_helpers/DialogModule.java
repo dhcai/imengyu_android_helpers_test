@@ -456,80 +456,85 @@ public class DialogModule extends WXModule {
     @Keep
     @UniJSMethod
     public void showMessageDialog(JSONObject options, final JSCallback callback) {
-        String title = "";
-        String message = "";
-        String okText = "确定";
-        String cancelText = "";
-        String thirdText = "";
-        if(options.containsKey("title"))
-            title = options.getString("title");
-        if(options.containsKey("okText"))
-            okText = options.getString("okText");
-        if(options.containsKey("thirdText"))
-            thirdText = options.getString("thirdText");
-        if(options.containsKey("cancelText"))
-            cancelText = options.getString("cancelText");
-        if(options.containsKey("message"))
-            message = options.getString("message");
+        try {
+            String title = "";
+            String message = "";
+            String okText = "确定";
+            String cancelText = "";
+            String thirdText = "";
+            if (options.containsKey("title"))
+                title = options.getString("title");
+            if (options.containsKey("okText"))
+                okText = options.getString("okText");
+            if (options.containsKey("thirdText"))
+                thirdText = options.getString("thirdText");
+            if (options.containsKey("cancelText"))
+                cancelText = options.getString("cancelText");
+            if (options.containsKey("message"))
+                message = options.getString("message");
 
-        MessageDialog messageDialog = MessageDialog.build();
+            MessageDialog messageDialog = MessageDialog.build();
 
-        if(options.containsKey("dialogStyle")) {
-            String theme = options.getString("dialogStyle");
-            switch (theme) {
-                case "Material":
-                    messageDialog.setStyle(MaterialStyle.style());
-                    break;
-                case "Kongzue":
-                    messageDialog.setStyle(KongzueStyle.style());
-                    break;
-                case "IOS":
-                    messageDialog.setStyle(IOSStyle.style());
-                    break;
-                case "MIUI":
-                    messageDialog.setStyle(MIUIStyle.style());
-                    break;
+            if (options.containsKey("dialogStyle")) {
+                String theme = options.getString("dialogStyle");
+                switch (theme) {
+                    case "Material":
+                        messageDialog.setStyle(MaterialStyle.style());
+                        break;
+                    case "Kongzue":
+                        messageDialog.setStyle(KongzueStyle.style());
+                        break;
+                    case "IOS":
+                        messageDialog.setStyle(IOSStyle.style());
+                        break;
+                    case "MIUI":
+                        messageDialog.setStyle(MIUIStyle.style());
+                        break;
+                }
             }
-        }
-        if(options.containsKey("dialogTheme")) {
-            String theme = options.getString("dialogTheme");
-            if(theme.equals("LIGHT"))
-                messageDialog.setTheme(DialogX.THEME.LIGHT);
-            else if(theme.equals("DARK"))
-                messageDialog.setTheme(DialogX.THEME.DARK);
-        }
+            if (options.containsKey("dialogTheme")) {
+                String theme = options.getString("dialogTheme");
+                if (theme.equals("LIGHT"))
+                    messageDialog.setTheme(DialogX.THEME.LIGHT);
+                else if (theme.equals("DARK"))
+                    messageDialog.setTheme(DialogX.THEME.DARK);
+            }
 
-        messageDialog.setTitle(title);
-        messageDialog.setMessage(message);
+            messageDialog.setTitle(title);
+            messageDialog.setMessage(message);
 
-        if(!okText.equals(""))
-            messageDialog.setOkButton(okText, (baseDialog, v) -> {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("success", true);
-                jsonObject.put("confirm", "ok");
-                jsonObject.put("errMsg", "ok");
-                callback.invoke(jsonObject);
-                return false;
-            });
-        if(!cancelText.equals(""))
-            messageDialog.setCancelButton(cancelText, (baseDialog, v) -> {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("confirm", "cancel");
-                jsonObject.put("success", true);
-                jsonObject.put("errMsg", "ok");
-                callback.invoke(jsonObject);
-                return false;
-            });
-        if(!thirdText.equals(""))
-            messageDialog.setOtherButton(thirdText, (baseDialog, v) -> {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("confirm", "other");
-                jsonObject.put("success", true);
-                jsonObject.put("errMsg", "ok");
-                callback.invoke(jsonObject);
-                return false;
-            });
-        messageDialog.show();
+            if (!okText.equals(""))
+                messageDialog.setOkButton(okText, (baseDialog, v) -> {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("success", true);
+                    jsonObject.put("confirm", "ok");
+                    jsonObject.put("errMsg", "ok");
+                    callback.invoke(jsonObject);
+                    return false;
+                });
+            if (!cancelText.equals(""))
+                messageDialog.setCancelButton(cancelText, (baseDialog, v) -> {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("confirm", "cancel");
+                    jsonObject.put("success", true);
+                    jsonObject.put("errMsg", "ok");
+                    callback.invoke(jsonObject);
+                    return false;
+                });
+            if (!thirdText.equals(""))
+                messageDialog.setOtherButton(thirdText, (baseDialog, v) -> {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("confirm", "other");
+                    jsonObject.put("success", true);
+                    jsonObject.put("errMsg", "ok");
+                    callback.invoke(jsonObject);
+                    return false;
+                });
+            messageDialog.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**

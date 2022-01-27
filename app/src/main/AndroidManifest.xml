@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.android.UniPlugin">
+    package="com.imengyu.test">
 
     <supports-screens
         android:anyDensity="true"
@@ -84,7 +84,7 @@
         </activity>
         <meta-data
             android:name="dcloud_appkey"
-            android:value="开发者需登录https://dev.dcloud.net.cn/申请签名" />
+            android:value="5ba35d2e04fe25bdc9b2bee35efcee76" />
     </application>
 
 </manifest>

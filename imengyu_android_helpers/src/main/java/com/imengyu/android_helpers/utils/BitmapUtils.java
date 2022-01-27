@@ -3,7 +3,10 @@ package com.imengyu.android_helpers.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.media.ExifInterface;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -99,9 +102,6 @@ public class BitmapUtils {
      * @param file 压缩后图片保存的位置
      */
     public static void imageFixCompress(Bitmap bmp, int quality, int width, int height, int orientation, File file) {
-        //旋转图片
-        Matrix matrix = new Matrix();
-        matrix.setRotate(orientation, bmp.getWidth() / 2.0f, bmp.getHeight() / 2.0f);
 
         //如果指定了长宽其中某个值，则会按比例为你缩小图片。
         //如果指定了长宽其两个值，则会按直接拉伸图片。
@@ -118,8 +118,22 @@ public class BitmapUtils {
             resultHeight = (int)((bmp.getWidth() / (float)bmp.getHeight()) * width);
         }
 
+
+        Bitmap newBitmap = Bitmap.createBitmap(resultWidth, resultHeight, bmp.getConfig());
+        Canvas canvas = new Canvas(newBitmap);
+
+        float scaleX = resultWidth / (float)bmp.getWidth();
+        float scaleY = resultHeight / (float)bmp.getHeight();
+        //旋转图片
+        Matrix matrix = new Matrix();
+        matrix.setRotate(orientation, bmp.getWidth() / 2.0f, bmp.getHeight() / 2.0f);
+        matrix.postScale(scaleX, scaleY);
+
+        Paint paint = new Paint();
+        paint.setAntiAlias(true);
+        canvas.drawBitmap(bmp, matrix, paint);
+
         //保存新图片
-        Bitmap newBitmap = Bitmap.createBitmap(bmp, 0, 0, resultWidth, resultHeight, matrix, true);
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         newBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
         try {
@@ -133,5 +147,41 @@ public class BitmapUtils {
             newBitmap.recycle();
         }
 
+    }
+
+    public static int getImageExifOrientation(final String path) {
+        ExifInterface exif;
+        int degree = 0;
+
+        try {
+            exif = new ExifInterface(path);
+        } catch (IOException e) {
+            e.printStackTrace();
+            exif = null;
+        }
+
+        if (exif != null) {
+            // 读取图片中相机方向信息
+            int ori = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION,
+                    ExifInterface.ORIENTATION_UNDEFINED);
+            // 计算旋转角度
+            switch (ori) {
+                case ExifInterface.ORIENTATION_ROTATE_90:
+                    degree = 90;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_180:
+                    degree = 180;
+                    break;
+                case ExifInterface.ORIENTATION_ROTATE_270:
+                    degree = 270;
+                    break;
+                default:
+                    degree = 0;
+                    break;
+
+
+            }
+        }
+        return degree;
     }
 }

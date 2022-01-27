@@ -1,148 +1,58 @@
 <template>
 	<view class="content">
-		<tm-grouplist title="列表组" title-theme="blue text" :shadow="24" :round="10" :padding="[42, 42]">
-			<tm-listitem title="支付" left-icon="icon-QQ" show-left-icon></tm-listitem>
-			<tm-listitem title="收藏" left-icon="icon-collection-fill" show-left-icon left-icon-color="pink"></tm-listitem>
-			<tm-listitem title="朋友圈" left-icon="icon-user-fill" show-left-icon left-icon-color="green"></tm-listitem>
-		</tm-grouplist>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
-		<tm-sheet :shadow="24">
-			什么是积分？点击右边问号图标展示
-		</tm-sheet>
+		<button @click="handleChooseImage">选择图片</button>
+		<image :src="image" mode="widthFix" style="width:750rpx;"></image>
+		<button @click="handleShowAlert">显示提示框</button>
+		<button @click="handleShowVideoPicker">选择视频</button>
+		<button @click="handleChooseImage">选择图片</button>
+		<button @click="handleChooseImage">选择图片</button>
+		<button @click="handleChooseImage">选择图片</button>
+		<button @click="handleChooseImage">选择图片</button>
 	</view>
 </template>
 
 <script>
+	const DialogModule = uni.requireNativePlugin('imengyu-AndroidToolbox-DialogModule');
+	const GalleryModule = uni.requireNativePlugin('imengyu-AndroidToolbox-GalleryModule');
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				image: '/static/logo.png'
 			}
 		},
 		onLoad() {
-
+			console.log('DialogModule', DialogModule);
+			console.log('GalleryModule', GalleryModule);
 		},
 		methods: {
-
+			handleChooseImage() {
+				GalleryModule.chooseImage({
+					compress: {
+						width: 300,
+						height: 300
+					}
+				}, (res) => {
+					console.log(res);
+					if(res.success) {
+						this.image = 'file://' + res.tempFilePaths[0]
+						console.log(this.image);
+					}
+				})
+			},
+			handleShowAlert() {
+				DialogModule.showMessageDialog({
+					title: '提示', 
+					message: 'showMessageDialog 这个对话框不错哦',
+				}, (res) => {
+					console.log(res);
+				})
+			},
+			handleShowVideoPicker() {
+				GalleryModule.chooseVideo({
+				}, (res) => {
+					console.log(res);
+				})
+			},
 		}
 	}
 </script>

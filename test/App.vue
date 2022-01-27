@@ -14,6 +14,4 @@
 
 <style>
 	/*每个页面公共css */
-	@import "./tm-vuetify/mian.min.css";
-	@import "./tm-vuetify/scss/theme.css";
 </style>

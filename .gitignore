@@ -11,3 +11,4 @@
 .externalNativeBuild
 unpackage/
 app/src/main/assets/*
+/app/build

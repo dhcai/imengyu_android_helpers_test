@@ -159,6 +159,17 @@ public class GalleryModule extends WXModule {
     }
 
     /**
+     * 获取本地图片的Exif旋转信息
+     * @param path 本地文件路径
+     * @return 返回旋转度数
+     */
+    @Keep
+    @UniJSMethod
+    public int getImageExifOrientation(String path) {
+       return BitmapUtils.getImageExifOrientation(path);
+    }
+
+    /**
      * 获取本地视频宽高 【异步】
      * @param options
      *                  {
@@ -473,107 +484,115 @@ public class GalleryModule extends WXModule {
     @Keep
     @UniJSMethod
     public void chooseImage(JSONObject options, final JSCallback callback) {
-        boolean hasAlbum = false, hasCamera = false;
-        int selCount = 9;
-        boolean hasGif = true;
-        boolean hasVideo = false;
-        boolean needSize = false;
+        try {
+            boolean hasAlbum = false, hasCamera = false;
+            int selCount = 9;
+            boolean hasGif = true;
+            boolean hasVideo = false;
+            boolean needSize = false;
 
-        callbackChooseImage = callback;
+            callbackChooseImage = callback;
 
-        final Activity activity = (Activity) mWXSDKInstance.getContext();
+            final Activity activity = (Activity) mWXSDKInstance.getContext();
 
-        if(options.containsKey("sourceType")) {
-            JSONArray sourceType = options.getJSONArray("sourceType");
-            for (int i = 0; i < sourceType.size(); i++)
-                if("album".equals(sourceType.get(i)))
-                    hasAlbum = true;
-                else if("camera".equals(sourceType.get(i)))
-                    hasCamera = true;
-        } else {
-            hasAlbum = true;
-            hasCamera = true;
-        }
-        if(options.containsKey("count"))
-            selCount = options.getInteger("count");
-        if(options.containsKey("hasGif"))
-            hasGif = options.getBoolean("hasGif");
-        if(options.containsKey("hasVideo"))
-            hasVideo = options.getBoolean("hasVideo");
-        if(options.containsKey("needSize"))
-            needSize = options.getBoolean("needSize");
-        if(options.containsKey("compressQuality"))
-            compressQuality = options.getInteger("compressQuality");
-        else
-            compressQuality = 80;
-        if(options.containsKey("imageDirectionCorrection"))
-            chooseImageImageDirectionCorrection = options.getInteger("imageDirectionCorrection");
-        else
-            chooseImageImageDirectionCorrection = 0;
-        if(options.containsKey("compress")) {
-            compressImage =  true;
-
-            JSONObject compress = options.getJSONObject("compress");
-            if(compress.containsKey("width"))
-                compressImageWidth = compress.getInteger("width");
+            if (options.containsKey("sourceType")) {
+                JSONArray sourceType = options.getJSONArray("sourceType");
+                for (int i = 0; i < sourceType.size(); i++)
+                    if ("album".equals(sourceType.get(i)))
+                        hasAlbum = true;
+                    else if ("camera".equals(sourceType.get(i)))
+                        hasCamera = true;
+            } else {
+                hasAlbum = true;
+                hasCamera = true;
+            }
+            if (options.containsKey("count"))
+                selCount = options.getInteger("count");
+            if (options.containsKey("hasGif"))
+                hasGif = options.getBoolean("hasGif");
+            if (options.containsKey("hasVideo"))
+                hasVideo = options.getBoolean("hasVideo");
+            if (options.containsKey("needSize"))
+                needSize = options.getBoolean("needSize");
+            if (options.containsKey("compressQuality"))
+                compressQuality = options.getInteger("compressQuality");
             else
-                compressImageWidth = 0;
-            if(compress.containsKey("height"))
-                compressImageHeight = compress.getInteger("height");
+                compressQuality = 80;
+            if (options.containsKey("imageDirectionCorrection"))
+                chooseImageImageDirectionCorrection = options.getInteger("imageDirectionCorrection");
             else
-                compressImageHeight = 0;
-            if(compressImageHeight == compressImageWidth && compressImageWidth == 0)
+                chooseImageImageDirectionCorrection = 0;
+            if (options.containsKey("compress")) {
+                compressImage = true;
+
+                JSONObject compress = options.getJSONObject("compress");
+                if (compress.containsKey("width"))
+                    compressImageWidth = compress.getInteger("width");
+                else
+                    compressImageWidth = 0;
+                if (compress.containsKey("height"))
+                    compressImageHeight = compress.getInteger("height");
+                else
+                    compressImageHeight = 0;
+                if (compressImageHeight == compressImageWidth && compressImageWidth == 0)
+                    compressImage = false;
+            } else
                 compressImage = false;
-        }
-        else
-            compressImage = false;
 
 
-        if(hasAlbum && hasCamera) {
-            int finalSelCount = selCount;
-            boolean finalHasVideo = hasVideo;
-            boolean finalHasGif = hasGif;
-            boolean finalNeedSize = needSize;
-            BottomMenu.show(new String[]{
-                "使用相机拍摄照片", "从相册中选择照片"
-            }).setOnMenuItemClickListener((dialog, text, index) -> {
-                if(index == 0) {
-                    EasyPhotos.createCamera(activity, finalNeedSize)
+            if (hasAlbum && hasCamera) {
+                int finalSelCount = selCount;
+                boolean finalHasVideo = hasVideo;
+                boolean finalHasGif = hasGif;
+                boolean finalNeedSize = needSize;
+                BottomMenu.show(new String[]{
+                        "使用相机拍摄照片", "从相册中选择照片"
+                }).setOnMenuItemClickListener((dialog, text, index) -> {
+                    if (index == 0) {
+                        EasyPhotos.createCamera(activity, finalNeedSize)
+                                .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
+                                .start(REQUEST_CODE_CHOOSE_IMAGE);
+                    } else {
+                        EasyPhotos.createAlbum(activity, false, finalNeedSize, GlideEngine.getInstance())
+                                .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
+                                .setGif(finalHasGif)
+                                .setVideo(finalHasVideo)
+                                .setCount(finalSelCount)
+                                .start(REQUEST_CODE_CHOOSE_IMAGE);
+                    }
+                    return false;
+                }).setCancelButtonClickListener((baseDialog, v) -> {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("success", false);
+                    jsonObject.put("errMsg", "cancel");
+                    callback.invoke(jsonObject);
+                    return false;
+                }).setOnBackPressedListener(() -> {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("success", false);
+                    jsonObject.put("errMsg", "cancel");
+                    callback.invoke(jsonObject);
+                    return false;
+                });
+            } else if (hasAlbum) {
+                EasyPhotos.createAlbum(activity, false, needSize, GlideEngine.getInstance())
+                        .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
+                        .setCount(selCount)
+                        .setGif(hasGif)
+                        .setVideo(hasVideo)
+                        .start(REQUEST_CODE_CHOOSE_IMAGE);
+            } else if (hasCamera) {
+                EasyPhotos.createCamera(activity, needSize)
                         .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
                         .start(REQUEST_CODE_CHOOSE_IMAGE);
-                } else {
-                    EasyPhotos.createAlbum(activity, false, finalNeedSize, GlideEngine.getInstance())
-                        .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
-                        .setGif(finalHasGif)
-                        .setVideo(finalHasVideo)
-                        .setCount(finalSelCount)
-                        .start(REQUEST_CODE_CHOOSE_IMAGE);
-                }
-                return false;
-            }).setCancelButtonClickListener((baseDialog, v) -> {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("success", false);
-                jsonObject.put("errMsg", "cancel");
-                callback.invoke(jsonObject);
-                return false;
-            }).setOnBackPressedListener(() -> {
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("success", false);
-                jsonObject.put("errMsg", "cancel");
-                callback.invoke(jsonObject);
-                return false;
-            });
-        } else if(hasAlbum) {
-            EasyPhotos.createAlbum(activity, false, needSize, GlideEngine.getInstance())
-                .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
-                .setCount(selCount)
-                .setGif(hasGif)
-                .setVideo(hasVideo)
-                .start(REQUEST_CODE_CHOOSE_IMAGE);
-        } else if(hasCamera) {
-            EasyPhotos.createCamera(activity, needSize)
-                .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
-                .start(REQUEST_CODE_CHOOSE_IMAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("success", false);
+            jsonObject.put("errMsg", e.getMessage());
+            jsonObject.put("stackTrace", e.getStackTrace());
+            callbackCropImage.invoke(jsonObject);
         }
     }
 
@@ -744,8 +763,11 @@ public class GalleryModule extends WXModule {
                 JSONArray tempFilePaths = new JSONArray();
                 JSONArray tempFiles = new JSONArray();
 
+
+
                 for (Photo p : resultPhotos) {
                     String path = p.path;
+                    int orientation = BitmapUtils.getImageExifOrientation(path);
 
                     //非原图，或者指定了压缩，则进行压缩
                     if(!resultOriginal || compressImage) {
@@ -758,7 +780,7 @@ public class GalleryModule extends WXModule {
                                         compressQuality,
                                         compressImageWidth,
                                         compressImageHeight,
-                                        p.orientation + chooseImageImageDirectionCorrection,
+                                        orientation + chooseImageImageDirectionCorrection,
                                         cacheFile);
                                 path = cacheFile.getAbsolutePath();
                             }
@@ -775,7 +797,7 @@ public class GalleryModule extends WXModule {
                     file.put("height", p.height);
                     file.put("type", p.type);
                     file.put("duration", p.duration);
-                    file.put("orientation", p.orientation);
+                    file.put("orientation", orientation);
                     file.put("time", p.time);
                     file.put("path", path);
                     tempFiles.add(file);
