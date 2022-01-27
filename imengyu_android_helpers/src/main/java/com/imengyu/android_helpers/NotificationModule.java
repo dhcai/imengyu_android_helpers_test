@@ -1,12 +1,13 @@
 package com.imengyu.android_helpers;
 
-
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 
 import androidx.annotation.Keep;
 
 import com.alibaba.fastjson.JSONObject;
+import com.blankj.utilcode.util.FileUtils;
 import com.blankj.utilcode.util.NotificationUtils;
 import com.taobao.weex.common.WXModule;
 
@@ -66,7 +67,13 @@ public class NotificationModule extends WXModule {
                     if(file.exists())
                         builder.setSound(Uri.fromFile(file));
                 }
-
+                if(options.containsKey("smallIcon"))
+                    builder.setSmallIcon(options.getInteger("smallIcon"));
+                if(options.containsKey("largeIcon")) {
+                    String path = options.getString("largeIcon");
+                    if(FileUtils.isFileExists(path))
+                        builder.setLargeIcon(BitmapFactory.decodeFile(path));
+                }
             });
         } else {
             errMsg = "id is required";

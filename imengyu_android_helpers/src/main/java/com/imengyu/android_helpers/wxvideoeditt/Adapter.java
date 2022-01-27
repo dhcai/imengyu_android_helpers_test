@@ -9,10 +9,9 @@ import android.widget.ImageView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.imengyu.android_helpers.R;
 
 import java.util.List;
-
-import uni.imengyu.ydt.R;
 
 /**
  * Created by ZBK on 2017/10/13.

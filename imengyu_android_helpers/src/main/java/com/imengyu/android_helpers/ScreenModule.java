@@ -1,7 +1,10 @@
 package com.imengyu.android_helpers;
 
 import android.app.Activity;
+import android.os.Build;
 import android.util.Size;
+import android.view.Window;
+import android.view.WindowManager;
 
 import androidx.annotation.Keep;
 
@@ -24,6 +27,20 @@ public class ScreenModule extends WXModule {
             ScreenUtils.setFullScreen((Activity) mWXSDKInstance.getContext());
         else
             ScreenUtils.setNonFullScreen((Activity) mWXSDKInstance.getContext());
+    }
+
+    /**
+     * 设置页面是否禁止截屏录屏
+     * @param enable 是否禁止
+     */
+    @Keep
+    @UniJSMethod
+    public void setSecure(boolean enable) {
+        final Activity activity = ((Activity) mWXSDKInstance.getContext());
+        if(enable)
+            activity.getWindow().setFlags(WindowManager.LayoutParams.FLAG_SECURE, WindowManager.LayoutParams.FLAG_SECURE);
+        else
+            activity.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_SECURE);
     }
 
     /**

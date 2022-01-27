@@ -1,5 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Code/GitHub/imengyu_android_helpers_test/imengyu_android_helpers/src/main/res/drawable/bottom_line.xml" value="0.21822916666666667" />
+        <entry key="..\:/Code/GitHub/imengyu_android_helpers_test/imengyu_android_helpers/src/main/res/layout/activity_file_picker.xml" value="0.20208333333333334" />
+        <entry key="..\:/Code/GitHub/imengyu_android_helpers_test/imengyu_android_helpers/src/main/res/layout/fragment_file_all.xml" value="0.20208333333333334" />
+        <entry key="..\:/Code/GitHub/imengyu_android_helpers_test/imengyu_android_helpers/src/main/res/layout/item_file_picker.xml" value="0.20208333333333334" />
+        <entry key="..\:/Code/GitHub/imengyu_android_helpers_test/imengyu_android_helpers/src/main/res/layout/item_file_picker_show.xml" value="0.20208333333333334" />
+        <entry key="..\:/Code/GitHub/imengyu_android_helpers_test/imengyu_android_helpers/src/main/res/layout/item_per_image.xml" value="0.20208333333333334" />
+      </map>
+    </option>
+  </component>
   <component name="EntryPointsManager">
     <list size="1">
       <item index="0" class="java.lang.String" itemvalue="androidx.annotation.Keep" />

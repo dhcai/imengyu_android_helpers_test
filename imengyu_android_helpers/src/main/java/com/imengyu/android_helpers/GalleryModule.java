@@ -130,7 +130,7 @@ public class GalleryModule extends WXModule {
      * @param callback  回调
      * 返回参数：
      *                  {
-     *                      videoThumbnailBase64: string //视频的缩略图，以Base64编码
+     *                      videoThumbnail: string //视频的缩略图临时文件
      *                  }
      */
     @Keep
@@ -290,7 +290,7 @@ public class GalleryModule extends WXModule {
     }
 
     /**
-     * 打开裁剪图片窗口
+     * 打开裁剪图片窗口 (UCorp)
      * @param options
      * {
      *      sourceFilePath: string, //源文件路径
@@ -429,6 +429,10 @@ public class GalleryModule extends WXModule {
     }
 
     private int compressQuality = 80;
+    private boolean compressImage = false;
+    private int compressImageWidth = 0;
+    private int compressImageHeight = 0;
+    private int chooseImageImageDirectionCorrection = 0;
 
     /**
      * 选择图片
@@ -440,11 +444,13 @@ public class GalleryModule extends WXModule {
      *     hasVideo: boolean, //是否显示视频，默认false
      *     needSize: boolean, //是否需要获取图像宽高，默认false,
      *     compressQuality: number,	//压缩图片的质量，取值范围为1-100，数值越小，质量越低。默认值为80。
-     *     compress: { //如果指定此参数，返回的图片均会进行强制压缩，并且调整到您设置的大小
+     *     compress: { //如果指定此参数，返回的图片均会进行强制压缩，并且调整到您设置的大小.
+     *         //如果您至指定了长宽其中某个值，则会按比例为你缩小图片。
+     *         //如果您至指定了长宽其两个值，则会按直接拉伸图片。
      *         width: Number, //目标压缩宽度，单位为px，用于计算裁剪宽高比。
      *         height: Number, //目标压缩高度，单位为px，用于计算裁剪宽高比。
      *     },
-     *     imageDirection: number, //指定图片的旋转方向，默认旋转方向是依照照片的拍摄方向，你可以通过设置这个值，让图片在默认旋转方向上再旋转多少度。
+     *     imageDirectionCorrection: number, //纠正图片的旋转方向，默认旋转方向是依照照片的拍摄方向，你可以通过设置这个值，让图片在默认旋转方向上再旋转多少度。
      * }
      * @param callback 回调，大致与 uni.chooseImage 相同
      * {
@@ -500,6 +506,28 @@ public class GalleryModule extends WXModule {
             compressQuality = options.getInteger("compressQuality");
         else
             compressQuality = 80;
+        if(options.containsKey("imageDirectionCorrection"))
+            chooseImageImageDirectionCorrection = options.getInteger("imageDirectionCorrection");
+        else
+            chooseImageImageDirectionCorrection = 0;
+        if(options.containsKey("compress")) {
+            compressImage =  true;
+
+            JSONObject compress = options.getJSONObject("compress");
+            if(compress.containsKey("width"))
+                compressImageWidth = compress.getInteger("width");
+            else
+                compressImageWidth = 0;
+            if(compress.containsKey("height"))
+                compressImageHeight = compress.getInteger("height");
+            else
+                compressImageHeight = 0;
+            if(compressImageHeight == compressImageWidth && compressImageWidth == 0)
+                compressImage = false;
+        }
+        else
+            compressImage = false;
+
 
         if(hasAlbum && hasCamera) {
             int finalSelCount = selCount;
@@ -704,7 +732,7 @@ public class GalleryModule extends WXModule {
             if(resultCode == Activity.RESULT_OK) {
                 //返回对象集合：如果你需要了解图片的宽、高、大小、用户是否选中原图选项等信息，可以用这个
                 ArrayList<Photo> resultPhotos = data.getParcelableArrayListExtra(EasyPhotos.RESULT_PHOTOS);
-                boolean resultOriginal = data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, true);
+                boolean resultOriginal = data.getBooleanExtra(EasyPhotos.RESULT_SELECTED_ORIGINAL, false);
                 if(resultPhotos == null) {
                     JSONObject jsonObject = new JSONObject();
                     jsonObject.put("success", false);
@@ -719,16 +747,23 @@ public class GalleryModule extends WXModule {
                 for (Photo p : resultPhotos) {
                     String path = p.path;
 
-                    //非原图，则进行压缩
-                    if(!resultOriginal) {
+                    //非原图，或者指定了压缩，则进行压缩
+                    if(!resultOriginal || compressImage) {
                         if(!path.endsWith(".gif")) {
                             String name = MD5Utils.md5(path);
                             Bitmap b = BitmapFactory.decodeFile(path);
                             File cacheFile = CacheUtils.getCachePath(context, "/choose-image-cache/", name);
                             if (b != null && cacheFile != null) {
-                                BitmapUtils.qualityCompress(b, compressQuality, cacheFile);
+                                BitmapUtils.imageFixCompress(b,
+                                        compressQuality,
+                                        compressImageWidth,
+                                        compressImageHeight,
+                                        p.orientation + chooseImageImageDirectionCorrection,
+                                        cacheFile);
                                 path = cacheFile.getAbsolutePath();
                             }
+                            if (b != null)
+                                b.recycle();
                         }
                     }
 

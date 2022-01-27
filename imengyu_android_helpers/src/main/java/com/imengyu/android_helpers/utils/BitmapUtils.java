@@ -3,6 +3,7 @@ package com.imengyu.android_helpers.utils;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.util.Base64;
 
 import java.io.ByteArrayOutputStream;
@@ -89,24 +90,48 @@ public class BitmapUtils {
     }
 
     /**
-     * 质量压缩
-     * 设置bitmap options属性，降低图片的质量，像素不会减少
-     * 第一个参数为需要压缩的bitmap图片对象，第二个参数为压缩后图片保存的位置
-     * 设置options 属性0-100，来实现压缩（因为png是无损压缩，所以该属性对png是无效的）
-     *
-     * @param bmp
-     * @param file
+     * 选择图片处理缩放
+     * @param bmp 需要压缩的bitmap图片对象
+     * @param quality 属性0-100，来实现压缩（因为png是无损压缩，所以该属性对png是无效的）
+     * @param width 强制缩放宽
+     * @param height 强制缩放高
+     * @param orientation 旋转度数
+     * @param file 压缩后图片保存的位置
      */
-    public static void qualityCompress(Bitmap bmp, int quality, File file) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmp.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+    public static void imageFixCompress(Bitmap bmp, int quality, int width, int height, int orientation, File file) {
+        //旋转图片
+        Matrix matrix = new Matrix();
+        matrix.setRotate(orientation, bmp.getWidth() / 2.0f, bmp.getHeight() / 2.0f);
+
+        //如果指定了长宽其中某个值，则会按比例为你缩小图片。
+        //如果指定了长宽其两个值，则会按直接拉伸图片。
+        int resultWidth = 0;
+        int resultHeight = 0;
+        if(width != 0 && height != 0) {
+            resultWidth = width;
+            resultHeight = height;
+        } else if(width == 0 && height != 0) {
+            resultWidth = (int)((bmp.getWidth() / (float)bmp.getHeight()) * height);
+            resultHeight = height;
+        } else if(width != 0) {
+            resultWidth = width;
+            resultHeight = (int)((bmp.getWidth() / (float)bmp.getHeight()) * width);
+        }
+
+        //保存新图片
+        Bitmap newBitmap = Bitmap.createBitmap(bmp, 0, 0, resultWidth, resultHeight, matrix, true);
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        newBitmap.compress(Bitmap.CompressFormat.JPEG, quality, outputStream);
         try {
             FileOutputStream fos = new FileOutputStream(file);
-            fos.write(baos.toByteArray());
+            fos.write(outputStream.toByteArray());
             fos.flush();
             fos.close();
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            newBitmap.recycle();
         }
+
     }
 }

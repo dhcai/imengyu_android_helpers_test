@@ -18,10 +18,14 @@
             android:name="com.yalantis.ucrop.UCropActivity"
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name="com.imengyu.android_helpers.filepicker.FilePickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
         <provider
             android:name="com.imengyu.android_helpers.utils.GalleryFileProvider"
-            android:authorities="com.imengyu.ydt.fileprovider"
+            android:authorities="com.imengyu.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

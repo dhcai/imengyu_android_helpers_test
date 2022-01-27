@@ -1,8 +1,10 @@
 package com.imengyu.android_helpers.utils;
 
 import android.annotation.TargetApi;
+import android.content.ActivityNotFoundException;
 import android.content.ContentUris;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.ProviderInfo;
@@ -13,6 +15,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 
@@ -134,4 +137,29 @@ public class FileUtils {
     public static boolean isMediaDocument(Uri uri) {
         return "com.android.providers.media.documents".equals(uri.getAuthority());
     }
+
+    /**
+     * 使用系统选择文件打开方式
+     * @param context 上下文
+     * @param file 文件路径
+     */
+    public static void openFileWithApp(Context context, String file, String title) {
+        try {
+            Intent intent = new Intent();
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setAction(Intent.ACTION_VIEW);
+            //解决 Android N 7.0 上 使用 fileProvider 共享文件
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                Uri contentUri = FileProvider.getUriForFile(context, "com.imengyu.fileprovider", new File(file));
+                intent.setDataAndType(contentUri, MapTable.getMIMEType(file));
+            } else {
+                intent.setDataAndType(Uri.fromFile(new File(file)), MapTable.getMIMEType(file));
+            }
+            context.startActivity(Intent.createChooser(intent, title));
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, "ActivityNotFoundException", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
