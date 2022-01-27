@@ -1,9 +1,133 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
-		</view>
+		<tm-grouplist title="列表组" title-theme="blue text" :shadow="24" :round="10" :padding="[42, 42]">
+			<tm-listitem title="支付" left-icon="icon-QQ" show-left-icon></tm-listitem>
+			<tm-listitem title="收藏" left-icon="icon-collection-fill" show-left-icon left-icon-color="pink"></tm-listitem>
+			<tm-listitem title="朋友圈" left-icon="icon-user-fill" show-left-icon left-icon-color="green"></tm-listitem>
+		</tm-grouplist>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
+		<tm-sheet :shadow="24">
+			什么是积分？点击右边问号图标展示
+		</tm-sheet>
 	</view>
 </template>
 
@@ -24,30 +148,5 @@
 </script>
 
 <style>
-	
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
 
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
-	}
 </style>

@@ -90,72 +90,117 @@ public class NativeHelperModule extends WXModule {
         });
     }
 
+    /**
+     * 获取App的UID
+     */
     @Keep
     @UniJSMethod
     public int getAppUid() {
         return AppUtils.getAppUid();
     }
+    /**
+     * 获取App的版本号数字
+     */
     @Keep
     @UniJSMethod
     public int getAppVersionCode() {
         return AppUtils.getAppVersionCode();
     }
+    /**
+     * 获取App的版本名称
+     */
     @Keep
     @UniJSMethod
     public String getAppVersionName() {
         return AppUtils.getAppVersionName();
     }
+    /**
+     * 获取App的名称
+     */
     @Keep
     @UniJSMethod
     public String getAppName() {
         return AppUtils.getAppName();
     }
 
+    /**
+     * 获取App是否在前台
+     */
     @Keep
     @UniJSMethod
     public boolean isAppForeground() {
         return AppUtils.isAppForeground();
     }
+    /**
+     * 获取App是否Root
+     */
     @Keep
     @UniJSMethod
     public boolean isAppRoot() {
         return AppUtils.isAppRoot();
     }
+    /**
+     * 获取App是否是调试版本的应用
+     */
     @Keep
     @UniJSMethod
     public boolean isAppDebug() {
         return AppUtils.isAppDebug();
     }
+    /**
+     * 获取App是否是系统应用
+     */
     @Keep
     @UniJSMethod
     public boolean isAppSystem() {
         return AppUtils.isAppSystem();
     }
+    /**
+     * 获取指定App是否安装
+     * @param pkgName 要查询的包名
+     */
     @Keep
     @UniJSMethod
     public boolean isAppInstalled(String pkgName) {
         return AppUtils.isAppInstalled(pkgName);
     }
+    /**
+     * 获取指定App是否在运行
+     * @param pkgName 要查询的包名
+     */
     @Keep
     @UniJSMethod
     public boolean isAppRunning(String pkgName) {
         return AppUtils.isAppRunning(pkgName);
     }
+    /**
+     * 获取App是否是第一次安装到此设备
+     */
     @Keep
     @UniJSMethod
     public boolean isFirstTimeInstall() {
         return AppUtils.isFirstTimeInstall();
     }
+    /**
+     * 获取App是否是第一次安装
+     */
     @Keep
     @UniJSMethod
     public boolean isFirstTimeInstalled() {
         return AppUtils.isFirstTimeInstalled();
     }
+    /**
+     * 启动指定App
+     * @param pkgName 要启动的包名
+     */
     @Keep
     @UniJSMethod
     public void launchApp(String pkgName) {
         AppUtils.launchApp(pkgName);
     }
+    /**
+     * 退出App
+     */
     @Keep
     @UniJSMethod
     public void exitApp() {
