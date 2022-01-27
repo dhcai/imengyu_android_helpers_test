@@ -9,5 +9,5 @@
 /build
 /captures
 .externalNativeBuild
-unipackage/
+unpackage/
 app/src/main/assets/*
