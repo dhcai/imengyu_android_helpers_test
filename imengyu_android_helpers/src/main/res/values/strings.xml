@@ -14,4 +14,10 @@
     <string name="file_select_res">确定%s</string>
     <string name="file_select_max">最多选择%d个文件</string>
     <string name="no_video">没有视频</string>
+    <string name="ucrop_label_original">原图</string>
+    <string name="ucrop_label_edit_photo">编辑图片</string>
+    <string name="ucrop_menu_next">下一步</string>
+    <string name="ucrop_rotate">旋转</string>
+    <string name="ucrop_scale">缩放</string>
+    <string name="ucrop_crop">剪裁</string>
 </resources>

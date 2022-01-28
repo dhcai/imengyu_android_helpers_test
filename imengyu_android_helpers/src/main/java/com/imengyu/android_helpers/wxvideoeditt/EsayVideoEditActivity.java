@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.esay.ffmtool.FfmpegTool;
 import com.imengyu.android_helpers.R;
 import com.imengyu.android_helpers.utils.StatusBarUtils;
+import com.imengyu.android_helpers.utils.StringUtils;
 import com.kongzue.dialogx.dialogs.WaitDialog;
 
 import java.io.File;
@@ -50,6 +51,7 @@ public class EsayVideoEditActivity extends AppCompatActivity implements RangeBar
     private RangeBar rangeBar;
     private FrameLayout fram;
     private VideoView uVideoView;
+    private TextView text_time;
 
     private String videoPath;
     private String parentPath;
@@ -108,6 +110,7 @@ public class EsayVideoEditActivity extends AppCompatActivity implements RangeBar
         videoPath = intent.getStringExtra(PATH);
         maxDuration = intent.getIntExtra(DURATION, 60);
 
+        text_time = findViewById(R.id.text_time);
         recyclerview = findViewById(R.id.recyclerview);
         rangeBar = findViewById(R.id.rangeBar);
         fram = findViewById(R.id.fram);
@@ -159,6 +162,8 @@ public class EsayVideoEditActivity extends AppCompatActivity implements RangeBar
         rangeBar.setOnRangeBarChangeListener(this);//设置滑动条的监听
         uVideoView.setVideoPath(videoPath);
         uVideoView.start();
+
+        updateSelectTimeString();
     }
 
     /**
@@ -226,6 +231,18 @@ public class EsayVideoEditActivity extends AppCompatActivity implements RangeBar
         this.leftThumbIndex = leftThumbIndex;
         this.rightThumbIndex = rightThumbIndex;
         this.calStartEndTime();
+        this.updateSelectTimeString();
+    }
+
+    private void updateSelectTimeString() {
+        String sb =
+                StringUtils.getTimeString(startTime * 1000L) +
+                "-" +
+                StringUtils.getTimeString(endTime * 1000L) +
+                " (" +
+                StringUtils.getTimeString((endTime - startTime) * 1000L) +
+                ")";
+        text_time.setText(sb);
     }
 
     /**
@@ -259,6 +276,7 @@ public class EsayVideoEditActivity extends AppCompatActivity implements RangeBar
                 }
             }
             calStartEndTime();
+            updateSelectTimeString();
         }
     };
 

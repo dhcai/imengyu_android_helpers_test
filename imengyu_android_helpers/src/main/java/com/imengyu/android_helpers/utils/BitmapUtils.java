@@ -157,7 +157,6 @@ public class BitmapUtils {
         try {
             exif = new ExifInterface(path);
         } catch (IOException e) {
-            e.printStackTrace();
             exif = null;
         }
 

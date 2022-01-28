@@ -6,9 +6,11 @@ import android.net.Uri;
 
 import androidx.annotation.Keep;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.imengyu.android_helpers.filepicker.FilePickerActivity;
 import com.imengyu.android_helpers.filepicker.PickerManager;
+import com.imengyu.android_helpers.filepicker.model.FileEntity;
 import com.imengyu.android_helpers.utils.FileUtils;
 import com.imengyu.android_helpers.utils.ShareUtils;
 import com.taobao.weex.bridge.JSCallback;
@@ -76,10 +78,18 @@ public class FilePickerModule extends WXModule {
             }
         }
         else if (requestCode == 1232 && resultCode == Activity.RESULT_OK) {
-            Uri uri = data.getData();
             if(this.callback2 != null) {
                 JSONObject o = new JSONObject();
-                o.put("paths", FileUtils.getPath(mWXSDKInstance.getContext(), uri));
+                JSONArray filesPaths = new JSONArray();
+                JSONArray files = new JSONArray();
+                for (int i = 0; i < PickerManager.getInstance().files.size(); i++) {
+                    FileEntity entity = PickerManager.getInstance().files.get(i);
+                    filesPaths.add(entity.getPath());
+                    files.add(entity);
+                }
+
+                o.put("paths", filesPaths);
+                o.put("files", files);
                 this.callback2.invoke(o);
                 this.callback2 = null;
             }

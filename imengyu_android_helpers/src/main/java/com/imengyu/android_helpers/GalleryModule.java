@@ -48,6 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import io.dcloud.feature.uniapp.annotation.UniJSMethod;
+import io.dcloud.feature.uniapp.utils.UniLogUtils;
 
 @Keep
 public class GalleryModule extends WXModule {
@@ -765,8 +766,6 @@ public class GalleryModule extends WXModule {
                 JSONArray tempFilePaths = new JSONArray();
                 JSONArray tempFiles = new JSONArray();
 
-
-
                 for (Photo p : resultPhotos) {
                     String path = p.path;
                     int orientation = BitmapUtils.getImageExifOrientation(path);
@@ -778,13 +777,24 @@ public class GalleryModule extends WXModule {
                             Bitmap b = BitmapFactory.decodeFile(path);
                             File cacheFile = CacheUtils.getCachePath(context, "/choose-image-cache/", name);
                             if (b != null && cacheFile != null) {
-                                BitmapUtils.imageFixCompress(b,
-                                        compressQuality,
-                                        compressImageWidth,
-                                        compressImageHeight,
-                                        orientation + chooseImageImageDirectionCorrection,
-                                        cacheFile);
-                                path = cacheFile.getAbsolutePath();
+                                try {
+                                    if(compressImageWidth == 0 && compressImageHeight == 0) {
+                                        compressImageWidth = p.width;
+                                        compressImageHeight = p.height;
+                                    }
+                                    if(compressImageWidth > 0 && compressImageHeight > 0) {
+                                        BitmapUtils.imageFixCompress(b,
+                                                compressQuality,
+                                                compressImageWidth,
+                                                compressImageHeight,
+                                                orientation + chooseImageImageDirectionCorrection,
+                                                cacheFile);
+                                        path = cacheFile.getAbsolutePath();
+                                    }
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    UniLogUtils.w("Failed to compress image \"" + path + "\"");
+                                }
                             }
                             if (b != null)
                                 b.recycle();
