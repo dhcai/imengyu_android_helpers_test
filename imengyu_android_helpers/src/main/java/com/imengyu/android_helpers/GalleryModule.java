@@ -782,7 +782,7 @@ public class GalleryModule extends WXModule {
                                         compressImageWidth = p.width;
                                         compressImageHeight = p.height;
                                     }
-                                    if(compressImageWidth > 0 && compressImageHeight > 0) {
+                                    if(compressImageWidth > 0 || compressImageHeight > 0) {
                                         BitmapUtils.imageFixCompress(b,
                                                 compressQuality,
                                                 compressImageWidth,

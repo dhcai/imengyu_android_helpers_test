@@ -70,7 +70,7 @@
 					}
 				})
 			},
-			handleChooseImage2() {
+			handleChooseImage() {
 				GalleryModule.chooseImage({
 					compress: {
 						width: 400,
