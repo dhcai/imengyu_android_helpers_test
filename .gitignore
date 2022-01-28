@@ -10,5 +10,5 @@
 /captures
 .externalNativeBuild
 unpackage/
-app/src/main/assets/*
+app/src/main/assets/apps/*
 /app/build

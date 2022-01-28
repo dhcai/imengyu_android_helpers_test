@@ -111,6 +111,17 @@
       "hooksClass": "com.imengyu.android_helpers.AppProxy",
       "minSdkVersion": "21",
       "integrateType": "aar",
+      "dependencies": [
+        "com.github.HuanTanSheng:EasyPhotos:3.1.5",
+        "com.github.yalantis:ucrop:2.2.6",
+        "com.github.getActivity:ToastUtils:10.0",
+        "com.github.getActivity:XXPermissions:13.2",
+        "com.github.kongzue.DialogX:DialogX:0.0.44.beta5",
+        "com.github.kongzue.DialogX:DialogXIOSStyle:latest.release",
+        "com.github.kongzue.DialogX:DialogXKongzueStyle:latest.release",
+        "com.github.kongzue.DialogX:DialogXMIUIStyle:latest.release",
+        "com.blankj:utilcodex:latest.release"
+      ],
       "permissions": [
         "android.permission.ACCESS_NETWORK_STATE",
         "android.permission.ACCESS_WIFI_STATE",
