@@ -547,7 +547,9 @@ public class GalleryModule extends WXModule {
                 boolean finalNeedSize = needSize;
                 BottomMenu.show(new String[]{
                         "使用相机拍摄照片", "从相册中选择照片"
-                }).setOnMenuItemClickListener((dialog, text, index) -> {
+                })
+                .setCancelButton("取消")
+                .setOnMenuItemClickListener((dialog, text, index) -> {
                     if (index == 0) {
                         EasyPhotos.createCamera(activity, finalNeedSize)
                                 .setFileProviderAuthority(mWXSDKInstance.getContext().getPackageName() + ".android_helpers.fileprovider")

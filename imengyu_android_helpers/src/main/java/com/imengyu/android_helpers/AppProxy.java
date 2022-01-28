@@ -8,6 +8,7 @@ import androidx.annotation.Keep;
 import com.hjq.toast.ToastUtils;
 import com.kongzue.dialogx.DialogX;
 import com.kongzue.dialogx.interfaces.BaseDialog;
+import com.kongzue.dialogx.style.IOSStyle;
 
 import io.dcloud.feature.uniapp.UniAppHookProxy;
 
@@ -23,6 +24,7 @@ public class AppProxy implements UniAppHookProxy {
     public void onSubProcessCreate(Application application) {
         appContext = application;
         DialogX.useActivityLayoutTranslationNavigationBar = false;
+        DialogX.globalStyle = IOSStyle.style();
         BaseDialog.init(appContext);
         ToastUtils.init(application);
         ToastUtils.setView(R.layout.toast_custom_view);
@@ -31,6 +33,7 @@ public class AppProxy implements UniAppHookProxy {
     public void onCreate(Application application) {
         appContext = application;
         DialogX.useActivityLayoutTranslationNavigationBar = false;
+        DialogX.globalStyle = IOSStyle.style();
         BaseDialog.init(appContext);
         ToastUtils.init(application);
         ToastUtils.setView(R.layout.toast_custom_view);

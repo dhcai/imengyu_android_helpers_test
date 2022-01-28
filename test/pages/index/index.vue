@@ -5,7 +5,7 @@
 		<image :src="image" mode="widthFix" style="width:750rpx;"></image>
 		<button @click="handleShowAlert">显示提示框</button>
 		<button @click="handleShowVideoPicker">选择视频</button>
-		<button @click="handleChooseImage">选择图片</button>
+		<button @click="handleShareDalog">shareDalog</button>
 		<button @click="handleChooseFile">选择文件</button>
 		<button @click="handleChooseFile2">选择文件2</button>
 		<button @click="handleNotify">发送通知</button>
@@ -67,6 +67,13 @@
 				}, (res) => {
 					console.log(res);
 				})
+			},
+			handleShareDalog() {
+				DialogModule.showShareDialog({
+					choices: [ 'wechat-moments','qq','wechat','sina','link','poster','weapp-qrcode','qrcode'],
+				}, (res) => {
+					console.log(res);
+				});
 			},
 			handleChooseFile() {
 				FilePickerModule.pickFiles({

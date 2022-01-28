@@ -652,6 +652,8 @@ public class DialogModule extends WXModule {
                     }
                 }
             });
+
+            dialog.show();
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -45,8 +45,8 @@ dependencies {
     implementation 'com.github.getActivity:ToastUtils:10.0'
     implementation 'com.github.getActivity:XXPermissions:13.2'
     implementation 'com.github.kongzue.DialogX:DialogX:0.0.44.beta5'
-    implementation 'com.github.kongzue.DialogX:DialogXIOSStyle:latest.release'
-    implementation 'com.github.kongzue.DialogX:DialogXKongzueStyle:latest.release'
-    implementation 'com.github.kongzue.DialogX:DialogXMIUIStyle:latest.release'
+    implementation 'com.github.kongzue.DialogX:DialogXIOSStyle:0.0.44.beta5'
+    implementation 'com.github.kongzue.DialogX:DialogXKongzueStyle:0.0.44.beta5'
+    implementation 'com.github.kongzue.DialogX:DialogXMIUIStyle:0.0.44.beta5'
     implementation 'com.blankj:utilcodex:latest.release'
 }
