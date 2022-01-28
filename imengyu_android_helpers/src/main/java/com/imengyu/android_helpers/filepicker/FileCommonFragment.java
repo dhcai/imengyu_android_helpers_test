@@ -1,5 +1,6 @@
 package com.imengyu.android_helpers.filepicker;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -64,18 +65,34 @@ public class FileCommonFragment extends Fragment implements FileScannerTask.File
     }
 
     private void initData() {
-        XXPermissions.with(this)
-                .permission(Permission.Group.STORAGE)
-                .request(new OnPermissionCallback() {
-                    @Override
-                    public void onGranted(List<String> permissions, boolean all) {
-                        new FileScannerTask(getContext(), FileCommonFragment.this).execute();
-                    }
-                    @Override
-                    public void onDenied(List<String> permissions, boolean never) {
-                        Toast.makeText(getContext(),"读写文件权限被拒绝",Toast.LENGTH_LONG).show();
-                    }
-                });
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            XXPermissions.with(this)
+                    .permission(Permission.MANAGE_EXTERNAL_STORAGE)
+                    .request(new OnPermissionCallback() {
+                        @Override
+                        public void onGranted(List<String> permissions, boolean all) {
+                            new FileScannerTask(getContext(), FileCommonFragment.this).execute();
+                        }
+                        @Override
+                        public void onDenied(List<String> permissions, boolean never) {
+                            Toast.makeText(getContext(), "读写文件权限被拒绝", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        } else {
+            XXPermissions.with(this)
+                    .permission(Permission.Group.STORAGE)
+                    .request(new OnPermissionCallback() {
+                        @Override
+                        public void onGranted(List<String> permissions, boolean all) {
+                            new FileScannerTask(getContext(), FileCommonFragment.this).execute();
+                        }
+
+                        @Override
+                        public void onDenied(List<String> permissions, boolean never) {
+                            Toast.makeText(getContext(), "读写文件权限被拒绝", Toast.LENGTH_LONG).show();
+                        }
+                    });
+        }
     }
 
     private void iniEvent(final List<FileEntity> entities) {

@@ -111,11 +111,11 @@ public class BitmapUtils {
             resultWidth = width;
             resultHeight = height;
         } else if(width == 0 && height != 0) {
-            resultWidth = (int)((bmp.getWidth() / (float)bmp.getHeight()) * height);
+            resultWidth = (int)((height / (float)bmp.getHeight()) * bmp.getWidth());
             resultHeight = height;
         } else if(width != 0) {
             resultWidth = width;
-            resultHeight = (int)((bmp.getWidth() / (float)bmp.getHeight()) * width);
+            resultHeight = (int)((width / (float)bmp.getWidth()) * bmp.getHeight());
         }
 
 
@@ -126,8 +126,9 @@ public class BitmapUtils {
         float scaleY = resultHeight / (float)bmp.getHeight();
         //旋转图片
         Matrix matrix = new Matrix();
-        matrix.setRotate(orientation, bmp.getWidth() / 2.0f, bmp.getHeight() / 2.0f);
         matrix.postScale(scaleX, scaleY);
+        matrix.postRotate(orientation, (bmp.getWidth() / 2.0f) * scaleX, (bmp.getHeight() / 2.0f) * scaleY);
+        //
 
         Paint paint = new Paint();
         paint.setAntiAlias(true);

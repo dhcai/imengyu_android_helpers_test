@@ -550,11 +550,11 @@ public class GalleryModule extends WXModule {
                 }).setOnMenuItemClickListener((dialog, text, index) -> {
                     if (index == 0) {
                         EasyPhotos.createCamera(activity, finalNeedSize)
-                                .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
+                                .setFileProviderAuthority(mWXSDKInstance.getContext().getPackageName() + ".android_helpers.fileprovider")
                                 .start(REQUEST_CODE_CHOOSE_IMAGE);
                     } else {
                         EasyPhotos.createAlbum(activity, false, finalNeedSize, GlideEngine.getInstance())
-                                .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
+                                .setFileProviderAuthority(mWXSDKInstance.getContext().getPackageName() + ".android_helpers.fileprovider")
                                 .setGif(finalHasGif)
                                 .setVideo(finalHasVideo)
                                 .setCount(finalSelCount)
@@ -576,14 +576,14 @@ public class GalleryModule extends WXModule {
                 });
             } else if (hasAlbum) {
                 EasyPhotos.createAlbum(activity, false, needSize, GlideEngine.getInstance())
-                        .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
+                        .setFileProviderAuthority(mWXSDKInstance.getContext().getPackageName() + ".android_helpers.fileprovider")
                         .setCount(selCount)
                         .setGif(hasGif)
                         .setVideo(hasVideo)
                         .start(REQUEST_CODE_CHOOSE_IMAGE);
             } else if (hasCamera) {
                 EasyPhotos.createCamera(activity, needSize)
-                        .setFileProviderAuthority("com.imengyu.android_helpers.fileprovider")
+                        .setFileProviderAuthority(mWXSDKInstance.getContext().getPackageName() + ".android_helpers.fileprovider")
                         .start(REQUEST_CODE_CHOOSE_IMAGE);
             }
         } catch (Exception e) {

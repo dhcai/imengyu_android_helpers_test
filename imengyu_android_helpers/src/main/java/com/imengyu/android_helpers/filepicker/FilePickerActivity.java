@@ -19,6 +19,7 @@ public class FilePickerActivity extends AppCompatActivity implements View.OnClic
     private TextView tv_size,tv_confirm;
     private Fragment commonFileFragment,allFileFragment;
     private boolean isConfirm = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

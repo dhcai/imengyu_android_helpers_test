@@ -8,6 +8,7 @@ import androidx.annotation.Keep;
 
 import com.alibaba.fastjson.JSONObject;
 import com.imengyu.android_helpers.filepicker.FilePickerActivity;
+import com.imengyu.android_helpers.filepicker.PickerManager;
 import com.imengyu.android_helpers.utils.FileUtils;
 import com.imengyu.android_helpers.utils.ShareUtils;
 import com.taobao.weex.bridge.JSCallback;
@@ -46,7 +47,6 @@ public class FilePickerModule extends WXModule {
      * 调用系统选择器选择本地文件
      *
      * @param options  {
-     *                      type: string //文件类型可以是，image/*：选择图片； audio/* 选择音频； video/* 选择视频； video/*;image/* 同时选择视频和图片；* /* 无限制
      *                      maxCount: number, //可选数量
      *                 }
      * @param callback {
@@ -58,10 +58,9 @@ public class FilePickerModule extends WXModule {
     public void pickFiles(JSONObject options, final JSCallback callback) {
         this.callback2 = callback;
         Intent intent = new Intent(((Activity) mWXSDKInstance.getContext()), FilePickerActivity.class);
-        if (options.containsKey("type"))
-            intent.putExtra("type", options.getString("type"));
-        if (options.containsKey("maxCount"))
-            intent.putExtra("maxCount", options.getInteger("maxCount"));
+        if (options.containsKey("maxCount")) {
+            PickerManager.getInstance().setMaxCount(options.getInteger("maxCount"));
+        }
         ((Activity) mWXSDKInstance.getContext()).startActivityForResult(intent, 1232);
     }
 
