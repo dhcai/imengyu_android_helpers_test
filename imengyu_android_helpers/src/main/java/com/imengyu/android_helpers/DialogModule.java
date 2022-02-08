@@ -84,6 +84,7 @@ public class DialogModule extends WXModule {
      * {
      *     title: string, //对话框标题
      *     choices: string[], //条目文字
+     *     showCancel?: boolean, //是否显示取消，默认是
      *     dialogStyle?: 'Material'|'Kongzue'|'IOS'|'MIUI', //对话框样式
      *     dialogTheme?: 'LIGHT'|'DARK', //对话框主题
      * }
@@ -99,6 +100,7 @@ public class DialogModule extends WXModule {
         try {
             List<CharSequence> choices = new ArrayList<>();
             String title = "请选择";
+            Boolean showCancel = true;
             if (options.containsKey("choices")) {
                 JSONArray jchoices = options.getJSONArray("choices");
                 for (int i = 0; i < jchoices.size(); i++)
@@ -106,6 +108,9 @@ public class DialogModule extends WXModule {
             }
             if (options.containsKey("title")) {
                 title = options.getString("title");
+            }
+            if (options.containsKey("showCancel")) {
+                showCancel = options.getBoolean("showCancel");
             }
 
             BottomMenu dialogInstance = BottomMenu.build();
@@ -146,8 +151,18 @@ public class DialogModule extends WXModule {
                         jsonObject.put("errMsg", "ok");
                         callback.invoke(jsonObject);
                         return false;
-                    })
-                    .show();
+                    });
+            if(showCancel)
+                dialogInstance.setCancelButton((dialog, text) -> {
+                    JSONObject jsonObject = new JSONObject();
+                    jsonObject.put("chooseIndex", -1);
+                    jsonObject.put("chooseText", "cancel");
+                    jsonObject.put("success", true);
+                    jsonObject.put("errMsg", "ok");
+                    callback.invoke(jsonObject);
+                    return false;
+                });
+            dialogInstance.show();
         }catch (Exception e) {
             e.printStackTrace();
         }
