@@ -457,8 +457,8 @@ public class GalleryModule extends WXModule {
      *     needSize: boolean, //是否需要获取图像宽高，默认false,
      *     compressQuality: number,	//压缩图片的质量，取值范围为1-100，数值越小，质量越低。默认值为80。
      *     compress: { //如果指定此参数，返回的图片均会进行强制压缩，并且调整到您设置的大小.
-     *         //如果您至指定了长宽其中某个值，则会按比例为你缩小图片。
-     *         //如果您至指定了长宽其两个值，则会按您设置的长宽直接拉伸图片。
+     *         //如果指定了长宽其中某个值，则会按比例缩小图片。
+     *         //如果指定了长宽其两个值，则会按您设置的长宽直接拉伸图片。
      *         width: Number, //目标压缩宽度，单位为px，用于计算裁剪宽高比。
      *         height: Number, //目标压缩高度，单位为px，用于计算裁剪宽高比。
      *     },
@@ -729,6 +729,93 @@ public class GalleryModule extends WXModule {
             });
         });
     }
+
+    /**
+     * 压缩图片
+     * @param options
+     * {
+     *     path: string, //源文件路径
+     *     //如果指定了长宽其中某个值，则会按比例为你缩小图片。
+     *     //如果指定了长宽其两个值，则会按您设置的长宽直接拉伸图片。
+     *     width?: number, //压缩宽度.
+     *     height?: number, //压缩高度
+     *     quality?: number, //压缩质量，默认80
+     *     directionCorrection?: number, //图片额外旋转度数，默认0°
+     * }
+     * @param callback
+     * {
+     *     path: string,  //压缩后的临时文件路径
+     *     success: boolean, //是否成功
+     *     errMsg: string
+     * }
+     */
+    @Keep
+    @UniJSMethod
+    public void compressImage(JSONObject options, final JSCallback callback) {
+
+        String path;
+
+        if(options.containsKey("path")) path = options.getString("path");
+        else {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("success", false);
+            jsonObject.put("errMsg", "path must provide");
+            callback.invoke(jsonObject);
+            return;
+        }
+
+        int width = 0;
+        int height = 0;
+        int quality = 80;
+        int directionCorrection = 0;
+
+        if(options.containsKey("width")) width = options.getInteger("width");
+        if(options.containsKey("height")) height = options.getInteger("height");
+        if(options.containsKey("quality")) quality = options.getInteger("quality");
+        if(options.containsKey("directionCorrection")) directionCorrection = options.getInteger("directionCorrection");
+
+        String name = MD5Utils.md5(path);
+        Bitmap b = BitmapFactory.decodeFile(path);
+        File cacheFile = CacheUtils.getCachePath(mWXSDKInstance.getContext(), "/compress-image-cache/", name);
+        if (b != null && cacheFile != null) {
+            try {
+                int orientation = BitmapUtils.getImageExifOrientation(path);
+
+                if(width == 0 && height == 0) {
+                    width = b.getWidth();
+                    height = b.getHeight();
+                }
+                if(width > 0 || height > 0) {
+                    BitmapUtils.imageFixCompress(b,
+                            quality,
+                            width,
+                            height,
+                            orientation + directionCorrection,
+                            cacheFile);
+                    path = cacheFile.getAbsolutePath();
+                }
+
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("success", true);
+                jsonObject.put("path", path);
+                jsonObject.put("errMsg", "ok");
+                callback.invoke(jsonObject);
+            } catch (Exception e) {
+                e.printStackTrace();
+                UniLogUtils.w("Failed to compress image \"" + path + "\"");
+
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("success", false);
+                jsonObject.put("path", path);
+                jsonObject.put("errMsg", "Failed to compress image \"" + path + "\": " + e.getLocalizedMessage());
+                callback.invoke(jsonObject);
+            }
+        }
+        if (b != null)
+            b.recycle();
+    }
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

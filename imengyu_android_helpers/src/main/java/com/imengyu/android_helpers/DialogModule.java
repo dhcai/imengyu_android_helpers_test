@@ -152,16 +152,19 @@ public class DialogModule extends WXModule {
                         callback.invoke(jsonObject);
                         return false;
                     });
-            if(showCancel)
-                dialogInstance.setCancelButton((dialog, text) -> {
-                    JSONObject jsonObject = new JSONObject();
-                    jsonObject.put("chooseIndex", -1);
-                    jsonObject.put("chooseText", "cancel");
-                    jsonObject.put("success", true);
-                    jsonObject.put("errMsg", "ok");
-                    callback.invoke(jsonObject);
-                    return false;
-                });
+            if(showCancel) {
+                dialogInstance
+                        .setCancelButton("取消")
+                        .setCancelButtonClickListener((dialog, text) -> {
+                            JSONObject jsonObject = new JSONObject();
+                            jsonObject.put("chooseIndex", -1);
+                            jsonObject.put("chooseText", "cancel");
+                            jsonObject.put("success", true);
+                            jsonObject.put("errMsg", "ok");
+                            callback.invoke(jsonObject);
+                            return false;
+                        });
+            }
             dialogInstance.show();
         }catch (Exception e) {
             e.printStackTrace();
@@ -705,6 +708,7 @@ public class DialogModule extends WXModule {
 
                 switch (icon) {
                     case "":
+                    default:
                         popTip = PopTip.show(title);
                         break;
                     case "success":
