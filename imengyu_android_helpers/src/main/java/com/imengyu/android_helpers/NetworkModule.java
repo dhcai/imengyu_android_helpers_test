@@ -172,7 +172,7 @@ public class NetworkModule extends WXModule {
     }
 
     /**
-     * 获取Wifi的SSID
+     * 获取已连接Wifi的SSID。
      */
     @Keep
     @UniJSMethod

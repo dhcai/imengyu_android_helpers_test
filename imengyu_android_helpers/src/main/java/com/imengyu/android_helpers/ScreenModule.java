@@ -53,7 +53,7 @@ public class ScreenModule extends WXModule {
     }
 
     /**
-     * 获取页面是否全屏状态
+     * 获取旋转是否锁定
      */
     @Keep
     @UniJSMethod
@@ -62,7 +62,7 @@ public class ScreenModule extends WXModule {
     }
 
     /**
-     * 获取页面是否全屏状态
+     * 获取页面是否是横屏
      */
     @Keep
     @UniJSMethod
@@ -71,7 +71,7 @@ public class ScreenModule extends WXModule {
     }
 
     /**
-     * 判断是否横屏
+     * 判断是否竖屏
      */
     @Keep
     @UniJSMethod

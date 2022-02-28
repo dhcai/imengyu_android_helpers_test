@@ -240,7 +240,7 @@ public class GalleryModule extends WXModule {
      *                  }
      * @param callback
      *                  {
-     *                      tempVideoPath: string, //剪裁完成后的视频的路径。使用完之后请使用deleteTempVideo删除
+     *                      tempVideoPath: string, //剪裁完成后临时的视频的路径。使用完之后请使用deleteTempVideo删除
      *                      success: boolean //获取是否成功
      *                  }
      */
@@ -265,7 +265,7 @@ public class GalleryModule extends WXModule {
      * 删除上一步剪裁的临时视频 【异步】
      * @param options
      *                  {
-     *                      path: string //视频的路径
+     *                      path: string //临时视频的路径
      *                  }
      * @param callback  回调
      *                  {

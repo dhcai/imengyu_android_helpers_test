@@ -51,7 +51,7 @@ public class StatusBarModule extends WXModule {
     }
 
     /**
-     * 获取状态栏的高度（像素）
+     * 获取状态栏是否是亮色模式
      */
     @Keep
     @UniJSMethod
@@ -60,7 +60,7 @@ public class StatusBarModule extends WXModule {
     }
 
     /**
-     * 获取底部导航条是否显示
+     * 获取状态栏是否显示
      */
     @Keep
     @UniJSMethod

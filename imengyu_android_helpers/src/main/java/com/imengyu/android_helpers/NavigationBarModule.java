@@ -84,7 +84,7 @@ public class NavigationBarModule extends WXModule {
     }
 
     /**
-     * 获取底部导航条的高度（像素）
+     * 获取底部导航条是否在亮色模式
      */
     @Keep
     @UniJSMethod

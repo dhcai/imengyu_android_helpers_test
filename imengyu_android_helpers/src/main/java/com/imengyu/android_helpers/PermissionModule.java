@@ -235,7 +235,7 @@ public class PermissionModule extends WXModule {
     @UniJSMethod
     public boolean isGrantedReceiveMms() { return XXPermissions.isGranted(mWXSDKInstance.getContext(), Manifest.permission.RECEIVE_MMS); }
     /**
-     * 获取当前App是否授予权限
+     * 获取当前App是否授予录音权限
      */
     @Keep
     @UniJSMethod
@@ -271,7 +271,7 @@ public class PermissionModule extends WXModule {
      *                       granted: boolean, //是否授予权限
      *                       permissions: string[], //当前请求的权限名称列表
      *                       all: boolean, //用户是否授予了全部权限，如果是请求一组权限时，用户可能同意某个，可能会不同意另外几个
-     *                       never: boolean, //用户是否点击取消并且永久不拒绝
+     *                       never: boolean, //用户是否点击取消并且永久拒绝
      *                 }
      */
     @Keep
@@ -531,7 +531,7 @@ public class PermissionModule extends WXModule {
      */
     @Keep
     @UniJSMethod
-    public void requestWWriteCallLog(final JSCallback callback) {
+    public void requestWriteCallLog(final JSCallback callback) {
         XXPermissions.with((Activity) mWXSDKInstance.getContext()).permission(Permission.WRITE_CALL_LOG).request(getOnPermissionCallback(callback));
     }
     /**

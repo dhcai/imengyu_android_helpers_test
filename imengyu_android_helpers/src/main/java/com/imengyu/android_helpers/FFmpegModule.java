@@ -154,7 +154,7 @@ public class FFmpegModule extends WXModule {
 
     /**
      * 异步任务模式，将视频解码成一帧帧图片。
-     * 每完成一次图片的解码与保存会回调一次，并传回新保存图片的地址与当前是图片下标。
+     * 每完成一次图片的解码与保存会回调一次，并传回新保存图片的地址与当前时间图片下标。
      * @param options
      * {
      *     src: string, //视频源路径
@@ -166,9 +166,10 @@ public class FFmpegModule extends WXModule {
      * {
      *     success: boolean, //是否成功
      *     errMsg: string, //错误信息
-     *     tag: number, //输入的标志位
      *     src: string, //输入的视频源路径
-     *     dir: string, //图片输出目录
+     *     dist: string, //图片输出目录
+     *     path: string, //当前帧图片图片输出目录
+     *     index: number, //当前帧图片索引
      * }
      * 解码完成的图片放在 dir 目录下，按 temp秒.jpg 名字排放,
      */
@@ -202,12 +203,16 @@ public class FFmpegModule extends WXModule {
             count = options.getInteger("count");
 
         FfmpegTool ffmpegTool = FfmpegTool.getInstance((Activity) mWXSDKInstance.getContext());
+        String finalDir = dir;
+        String finalSrc = src;
         ffmpegTool.setImageDecodeing((path, i) -> {
             JSONObject o = new JSONObject();
             o.put("success", true);
             o.put("errMsg", "ok");
             o.put("path", path);
             o.put("index", i);
+            o.put("src", finalSrc);
+            o.put("dest", finalDir);
             callback.invokeAndKeepAlive(o);
         });
         ffmpegTool.decodToImageWithCall(src, dir, startTime, count);
@@ -254,8 +259,8 @@ public class FFmpegModule extends WXModule {
      * {
      *     src: string, //视频源路径
      *     dist: string, //视频输出路径
-     *     startTime: number, //解码图片开始时间，单位ms
-     *     duration: number, //解码图片开始时间，单位ms
+     *     startTime: number, //裁剪开始时间，单位ms
+     *     duration: number, //裁剪时长，单位ms
      *     tag?: number, //标志位，默认0
      * }
      * @param callback

@@ -462,7 +462,8 @@ public class DialogModule extends WXModule {
      *     title: string, //对话框标题
      *     message: string, //对话框文字
      *     okText: string, //确定按钮文字，默认“确定”
-     *     cancelText: string, //取消按钮文字，默认“取消”
+     *     cancelText: string, //取消按钮文字，默认“取消”，为空时不显示
+     *     thirdText: string, //第三按钮文字，默认“”，为空时不显示
      *     dialogStyle?: 'Material'|'Kongzue'|'IOS'|'MIUI', //对话框样式
      *     dialogTheme?: 'LIGHT'|'DARK', //对话框主题
      * }
@@ -684,7 +685,7 @@ public class DialogModule extends WXModule {
      *     title: string, //文字
      *     icon: ''|'success'|'error'|'warning'|'build'|'check'|'bug_report', //图标
      *     buttonText: string, //按钮文字
-     *     duration: number, //显示算出，毫秒
+     *     duration: number, //显示时间，毫秒
      *     dialogStyle?: 'Material'|'Kongzue'|'IOS'|'MIUI', //对话框样式
      *     dialogTheme?: 'LIGHT'|'DARK', //对话框主题
      * }
@@ -798,7 +799,7 @@ public class DialogModule extends WXModule {
      *     title: string, //对话框标题
      *     message: string, //对话框文字
      *     okText: string, //确定按钮文字，默认“确定”
-     *     cancelText: string, //取消按钮文字，默认“取消”
+     *     cancelText: string, //取消按钮文字，默认“取消”，为空时不显示
      *     cancelable: boolean, //是否可以点击外围区域关闭对话框
      * }
      * @param callback 回调返回数据

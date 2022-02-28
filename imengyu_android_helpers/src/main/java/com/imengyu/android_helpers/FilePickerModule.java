@@ -11,10 +11,13 @@ import com.alibaba.fastjson.JSONObject;
 import com.imengyu.android_helpers.filepicker.FilePickerActivity;
 import com.imengyu.android_helpers.filepicker.PickerManager;
 import com.imengyu.android_helpers.filepicker.model.FileEntity;
+import com.imengyu.android_helpers.filepicker.model.FileType;
 import com.imengyu.android_helpers.utils.FileUtils;
 import com.imengyu.android_helpers.utils.ShareUtils;
 import com.taobao.weex.bridge.JSCallback;
 import com.taobao.weex.common.WXModule;
+
+import java.util.ArrayList;
 
 import io.dcloud.feature.uniapp.annotation.UniJSMethod;
 
@@ -46,13 +49,22 @@ public class FilePickerModule extends WXModule {
     }
 
     /**
-     * 调用系统选择器选择本地文件
+     * 调用选择器选择本地文件
      *
      * @param options  {
      *                      maxCount: number, //可选数量
+     *                      docType: boolean, //如果为 true，则忽略types，设置选择器只选择文档类型，包括ppt，word，excel等等
+     *                      type: string[] //自定义类型，设置可以选择的文件类型，写后缀名，如： [ "xls","xlt","xlsx","xltx" ]
      *                 }
      * @param callback {
      *                      paths: string[] //选择的文件路径
+     *                      files: {
+     *                          name: string, //名称
+     *                          path: string, //路径
+     *                          mimeType: string, //文件的mime类型
+     *                          size: string, //大小
+     *                          date: string, //修改日期
+     *                      }[] //选择的文件路径
      *                 }
      */
     @Keep
@@ -62,6 +74,21 @@ public class FilePickerModule extends WXModule {
         Intent intent = new Intent(((Activity) mWXSDKInstance.getContext()), FilePickerActivity.class);
         if (options.containsKey("maxCount")) {
             PickerManager.getInstance().setMaxCount(options.getInteger("maxCount"));
+        }
+        if (options.containsKey("docType") && options.getBoolean("docType")) {
+            PickerManager.getInstance().mFileTypes.clear();
+            PickerManager.getInstance().addDocTypes();
+        }
+        else if (options.containsKey("types")) {
+            PickerManager.getInstance().mFileTypes.clear();
+
+            JSONArray arr = options.getJSONArray("types");
+            ArrayList<String> filters = new ArrayList<>();
+            for (int i = 0; i < arr.size(); i++) {
+                filters.add(arr.getString(i));
+            }
+
+            PickerManager.getInstance().mFileTypes.add(new FileType("CUSTOM", (String[])filters.toArray(),R.mipmap.file_picker_def));
         }
         ((Activity) mWXSDKInstance.getContext()).startActivityForResult(intent, 1232);
     }
@@ -102,7 +129,7 @@ public class FilePickerModule extends WXModule {
      * @param options  {
      *     file: string, //文件路径，必须是本地绝对路径
      *     title: string //对话框标题，默认是 “选择应用打开此文件”
-     *                 }
+     * }
      */
     @Keep
     @UniJSMethod
