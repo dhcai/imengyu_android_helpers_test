@@ -9,8 +9,18 @@
 插件分为多个模块，您可以导入您需要的模块，然后调用模块的方法即可。
 
 例如，这里调用了图片裁剪模块，进行图片裁剪功能：
-```js
 
+```js
+const galleryModule = uni.requireNativePlugin('imengyu-AndroidToolbox-GalleryModule')
+
+galleryModule.startCropImageActivity({
+  sourceFilePath: path,
+  aspectRatio: [ 1, 1 ],
+}, (res) => {
+  if(res.success) {
+    console.log(res.tempFilePath);
+  }
+});
 
 ```
 
@@ -127,106 +137,16 @@
 
 ### 设备信息模块 DeviceModule
 
-* `isAdbEnabled()`
-
-  获取当前设备是否开启Adb调试。
-
-  * **参数**
-
-  |  属性| 类型 |说明  |
-  |  ----  | ----  | ----  |
-  | brightness | number  | 屏幕的亮度（0-255）|
-
-* `isDeviceRooted()`
-
-  获取设备是否Root。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | boolean  | - |
-
-* `isEmulator()`
-
-  获取设备是否是模拟器。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | boolean  | - |
-  
-* `isDevelopmentSettingsEnabled()`
-
-  获取设备是否开启了开发者模式。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | boolean  | - |
-  
-* `isTablet()`
-
-  获取设备是否是平板。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | boolean  | - |
-  
-* `getAndroidID()`
-
-  获取AndroidID。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | string  | - |
-  
-* `getManufacturer()`
-
-  获取设备制造商。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | string  | 设备制造商的说明名称。 |
-  
-* `getModel()`
-
-  获取设备模型。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | string  | 设备模型的说明名称。 |
-  
-* `getUniqueDeviceId()`
-
-  获取设备唯一ID。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | string  | - |
-  
-* `getUniqueDeviceIdWithCache()`
-
-  获取设备唯一ID(带缓存)。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | string  | - |
-  
+* `isAdbEnabled()` 获取当前设备是否开启Adb调试。
+* `isDeviceRooted()` 获取设备是否Root。
+* `isEmulator()` 获取设备是否是模拟器。
+* `isDevelopmentSettingsEnabled()` 获取设备是否开启了开发者模式。
+* `isTablet()` 获取设备是否是平板。
+* `getAndroidID()` 获取AndroidID。
+* `getManufacturer()` 获取设备制造商。
+* `getModel()` 获取设备模型。
+* `getUniqueDeviceId()` 获取设备唯一ID。
+* `getUniqueDeviceIdWithCache()` 获取设备唯一ID(带缓存)。
 * `getUniqueDeviceIdWithPrefix(prefix)`
 
   获取设备唯一ID（加前缀）。
@@ -243,35 +163,9 @@
   | ----  | ----  |
   | string  | - |
   
-* `getMacAddress()`
-
-  获取设备MAC地址。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | string  | - |
-  
-* `getSDKVersionName()`
-
-  获取SDK版本名称。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | string  | - |
-  
-* `getSDKVersionCode()`
-
-  获取SDK版本号。
-
-  * **返回**
-
-  | 类型 | 说明  |
-  | ----  | ----  |
-  | number  | - |
+* `getMacAddress()` 获取设备MAC地址。
+* `getSDKVersionName()` 获取SDK版本名称。
+* `getSDKVersionCode()` 获取SDK版本号。
 
 ### 对话框模块 DialogModule
   
@@ -1167,25 +1061,8 @@
   | ----  | ----  |
   | boolean | 否在运行 |
 
-* `isFirstTimeInstall()`
-
-  获取App是否是第一次安装到此设备。
-
-  * **返回**
-
-  |  类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `isFirstTimeInstalled()`
-
-  获取App是否是第一次安装。
-
-  * **返回**
-
-  |  类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
+* `isFirstTimeInstall()` 获取App是否是第一次安装到此设备。
+* `isFirstTimeInstalled()` 获取App是否是第一次安装。
 
 * `launchApp(pkgName)`
 
@@ -1221,26 +1098,11 @@
 
 ### 底部虚拟按键模块 NavigationBarModule
 
-* `hideNavigationBar()`
-
-  隐藏底部导航条。
-
-* `showNavigationBar()`
-
-  显示底部导航条。
-
-* `setTransparentNavigationBar()`
-
-  设置底部导航条为透明色。
-
-* `setBlackNavigationBar()`
-
-  设置底部导航条为黑色。
-
-* `resetBlackNavigationBar()`
-
-  重置底部导航条状态（重置为白色或者是默认状态）。
-
+* `hideNavigationBar()` 隐藏底部导航条。
+* `showNavigationBar()` 显示底部导航条。
+* `setTransparentNavigationBar()` 设置底部导航条为透明色。
+* `setBlackNavigationBar()` 设置底部导航条为黑色。
+* `resetBlackNavigationBar()` 重置底部导航条状态（重置为白色或者是默认状态）。
 * `getBlackNavigationBarHeight()`
 
   获取底部导航条的高度（像素）。
@@ -1251,68 +1113,15 @@
   | ----  | ----  |
   | number | 底部导航条的高度（像素） |
 
-* `getNavigationBarIsLightMode()`
-
-  获取底部导航条是否在亮色模式。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `getNavigationBarVisible()`
-
-  获取底部导航条是否显示。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
+* `getNavigationBarIsLightMode()` 获取底部导航条是否在亮色模式。
+* `getNavigationBarVisible()` 获取底部导航条是否显示。
 
 ### 网络检测工具模块 NetworkModule
 
-* `isConnected()`
-
-  获取网络是否连接。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `is4G()`
-
-  获取是否是4G网络。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `is5G()`
-
-  获取是否是5G网络。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `isAvailable()`
-
-  获取手机是否有网络功能。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
+* `isConnected()` 获取网络是否连接。
+* `is4G()` 获取是否是4G网络。
+* `is5G()` 获取是否是5G网络。
+* `isAvailable()` 获取手机是否有网络功能。
 * `isAvailableByPing(ip)`
 
   使用PING获取网络是否可用。
@@ -1329,16 +1138,7 @@
   | ----  | ----  |
   | boolean | - |
 
-* `isAvailableByPing()`
-
-  使用PING获取网络是否可用。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
+* `isAvailableByPing()` 使用PING获取网络是否可用。
 * `isAvailableByDns(dns)`
 
   使用Dns查询获取网络是否可用。
@@ -1355,66 +1155,12 @@
   | ----  | ----  |
   | boolean | - |
 
-* `isAvailableByDns()`
-
-  使用Dns查询获取网络是否可用。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `isBehindProxy()`
-
-  检查网络是否存在代理。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `isMobileData()`
-
-  检查是否是移动数据网络。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `isUsingVPN()`
-
-  检查是否是使用了VPN。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `isWifiAvailable()`
-
-  检查WIFI是否可用。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
-* `isWifiConnected()`
-
-  检查WIFI是否连接。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
+* `isAvailableByDns()` 使用Dns查询获取网络是否可用。
+* `isBehindProxy()` 检查网络是否存在代理。
+* `isMobileData()` 检查是否是移动数据网络。
+* `isUsingVPN()` 检查是否是使用了VPN。
+* `isWifiAvailable()` 检查WIFI是否可用。
+* `isWifiConnected()` 检查WIFI是否连接。
 * `getGatewayByWifi()`
 
   获取Wifi的网关地址。
@@ -1471,16 +1217,7 @@
   | ----  | ----  |
   | String | - |
 
-* `getWifiEnabled()`
-
-  获取Wifi是否启用。
-
-  * **返回**
-
-  | 类型 |说明  |
-  | ----  | ----  |
-  | boolean | - |
-
+* `getWifiEnabled()` 获取Wifi是否启用。
 * `getNetworkType()`
 
   获取网络类型。
